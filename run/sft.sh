@@ -11,6 +11,7 @@ python src/sft.py \
 --dataset_name='iamnguyen/athena-ultrachat' \
 --dataset_train_split='train_sft' \
 --dataset_test_split='test_sft' \
+--dataset_num_proc=4 \
 --report_to=none \
 --num_train_epochs=1 \
 --max_seq_length=2048 \

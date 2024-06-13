@@ -55,7 +55,7 @@ def main():
         peft_config=get_peft_config(model_config),
     )
 
-    # trainer.train()
+    trainer.train()
 
 if __name__=='__main__':
     main()
