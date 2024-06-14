@@ -30,11 +30,6 @@ def main():
     # Dataset
     ################
     ds = load_dataset(args.dataset)
-    if orpo_args.debug:
-        for key in ds:
-            ds[key] = ds[key].select(range(50))
-    if tokenizer.chat_template is None:
-        tokenizer.chat_template = "{% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}"
 
     def process(row):
         row["chosen"] = tokenizer.apply_chat_template(row["chosen"], tokenize=False)
@@ -43,7 +38,7 @@ def main():
 
     ds = ds.map(
         process,
-        num_proc=1 if orpo_args.debug else multiprocessing.cpu_count(),
+        num_proc=multiprocessing.cpu_count(),
         load_from_cache_file=False,
     )
     train_dataset = ds["train"]
