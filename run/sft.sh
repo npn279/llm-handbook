@@ -33,7 +33,7 @@ python src/sft.py \
 --hub_strategy='checkpoint' \
 --hub_model_id='iamnguyen/ares' \
 --gradient_checkpointing \
---resume_from_checkpoint="output/last-checkpoint" \
+--resume_from_checkpoint="output/last-checkpoint" 
 
 
 
