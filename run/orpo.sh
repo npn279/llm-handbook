@@ -8,9 +8,7 @@ python src/orpo.py \
 --lora_r=128 \
 --lora_alpha=256 \
 --lora_target_modules q_proj k_proj v_proj o_proj up_proj down_proj gate_proj \
---dataset_name='iamnguyen/orpo-dpo-mix-translated' \
---dataset_train_split='train' \
---dataset_test_split='test' \
+--dataset='iamnguyen/orpo-dpo-mix-translated' \
 --dataset_num_proc=4 \
 --report_to='wandb' \
 --num_train_epochs=1 \
