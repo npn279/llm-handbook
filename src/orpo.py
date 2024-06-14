@@ -61,10 +61,10 @@ def main():
         peft_config=get_peft_config(model_config),
     )
 
-    checkpoint = None
-    if orpo_args.resume_from_checkpoint is not None:
-        checkpoint = orpo_args.resume_from_checkpoint
-    trainer.train(resume_from_checkpoint=checkpoint)
+    # checkpoint = None
+    # if orpo_args.resume_from_checkpoint is not None:
+    #     checkpoint = orpo_args.resume_from_checkpoint
+    trainer.train()
 
 if __name__=='__main__':
     main()
