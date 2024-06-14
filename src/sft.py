@@ -55,7 +55,10 @@ def main():
         peft_config=get_peft_config(model_config),
     )
 
-    trainer.train()
+    checkpoint = None
+    if training_args.resume_from_checkpoint is not None:
+        checkpoint = training_args.resume_from_checkpoint
+    trainer.train(resume_from_checkpoint=checkpoint)
 
 if __name__=='__main__':
     main()
