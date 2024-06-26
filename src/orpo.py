@@ -16,7 +16,6 @@ class ScriptArguments:
 def main():
     parser = HfArgumentParser((ScriptArguments, ORPOConfig, ModelConfig))
     args, orpo_args, model_config = parser.parse_args_into_dataclasses()
-
     ################
     # Model & Tokenizer
     ################
@@ -25,6 +24,8 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(model_config.model_name_or_path)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    if tokenizer.bos_token is None:
+        tokenizer.bos_token = tokenizer.eos_token
 
     ################
     # Dataset
@@ -38,7 +39,7 @@ def main():
 
     ds = ds.map(
         process,
-        num_proc=multiprocessing.cpu_count(),
+        num_proc=orpo_args.dataset_num_proc,
         load_from_cache_file=False,
     )
     train_dataset = ds["train"]
@@ -47,6 +48,8 @@ def main():
     ################
     # Training
     ################
+    print(orpo_args)
+
     trainer = ORPOTrainer(
         model,
         args=orpo_args,
@@ -56,9 +59,9 @@ def main():
         peft_config=get_peft_config(model_config),
     )
 
-    # checkpoint = None
-    # if orpo_args.resume_from_checkpoint is not None:
-    #     checkpoint = orpo_args.resume_from_checkpoint
+    checkpoint = None
+    if orpo_args.resume_from_checkpoint is not None:
+        checkpoint = orpo_args.resume_from_checkpoint
     trainer.train()
 
 if __name__=='__main__':
