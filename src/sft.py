@@ -4,7 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 from trl import (
     TrlParser, 
     SFTScriptArguments, 
@@ -40,7 +40,10 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(model_config.model_name_or_path, use_fast=True)
     tokenizer.pad_token = tokenizer.eos_token
 
-    raw_datasets = load_dataset(args.dataset_name)
+    if os.path.exists(model_config.dataset_name):
+        raw_datasets = load_from_disk(model_config.dataset_name)
+    else:
+        raw_datasets = load_dataset(args.dataset_name)
 
     train_dataset = raw_datasets[args.dataset_train_split]
     eval_dataset = raw_datasets[args.dataset_test_split]
