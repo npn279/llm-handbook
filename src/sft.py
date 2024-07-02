@@ -44,6 +44,8 @@ def main():
         raw_datasets = load_from_disk(args.dataset_name)
     else:
         raw_datasets = load_dataset(args.dataset_name)
+    print(raw_datasets)
+    
 
     train_dataset = raw_datasets[args.dataset_train_split]
     eval_dataset = raw_datasets[args.dataset_test_split]
