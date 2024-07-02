@@ -41,7 +41,7 @@ def main():
     tokenizer.pad_token = tokenizer.eos_token
 
     if os.path.exists(model_config.dataset_name):
-        raw_datasets = load_from_disk(model_config.dataset_name)
+        raw_datasets = load_from_disk(args.dataset_name)
     else:
         raw_datasets = load_dataset(args.dataset_name)
 
