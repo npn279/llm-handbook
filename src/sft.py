@@ -40,7 +40,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(model_config.model_name_or_path, use_fast=True)
     tokenizer.pad_token = tokenizer.eos_token
 
-    if os.path.exists(model_config.dataset_name):
+    if os.path.exists(args.dataset_name):
         raw_datasets = load_from_disk(args.dataset_name)
     else:
         raw_datasets = load_dataset(args.dataset_name)
