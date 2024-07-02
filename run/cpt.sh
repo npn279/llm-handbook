@@ -1,4 +1,11 @@
-python src/sft.py \
+accelerate launch \
+--config_file configs/deepspeed_3.yaml \
+--main_process_ip $MASTER_ADDR \
+--main_process_port $MASTER_PORT \
+--machine_rank \$SLURM_PROCID \
+--num_processes 16 \
+--num_machines 2 \
+src/sft.py \
 --attn_implementation='flash_attention_2' \
 --seed=42 \
 --model_name_or_path="Qwen/Qwen2-1.5B" \
@@ -9,16 +16,16 @@ python src/sft.py \
 --lora_r=64 \
 --lora_alpha=16 \
 --lora_target_modules q_proj k_proj v_proj o_proj up_proj down_proj gate_proj \
---dataset_name='iamnguyen/athena-ultrachat' \
---dataset_train_split='train_sft' \
---dataset_test_split='test_sft' \
+--dataset_name='HuggingFaceTB/cosmopedia-20k' \
+--dataset_train_split='train' \
+--dataset_test_split='train' \
 --dataset_text_field='text' \
 --dataset_num_proc=4 \
 --report_to=none \
 --num_train_epochs=1 \
 --max_seq_length=2048 \
---per_device_train_batch_size=2 \
---gradient_accumulation_steps=32 \
+--per_device_train_batch_size=1 \
+--gradient_accumulation_steps=128 \
 --learning_rate=2e-4 \
 --lr_scheduler_type='cosine' \
 --optim='paged_adamw_8bit' \
@@ -33,9 +40,6 @@ python src/sft.py \
 --save_steps=4 \
 --push_to_hub \
 --hub_strategy='checkpoint' \
---hub_model_id='iamnguyen/ares' \
+--hub_model_id='...' \
 --gradient_checkpointing \
 --resume_from_checkpoint="output/last-checkpoint" 
-
-
-
