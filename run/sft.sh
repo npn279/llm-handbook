@@ -1,4 +1,6 @@
 python src/sft.py \
+--attn_implementation='flash_attention_2' \
+--deepspeed='deepspeed_config/ds_config_sft.json' \
 --seed=42 \
 --model_name_or_path="Qwen/Qwen2-1.5B" \
 --load_in_4bit \
