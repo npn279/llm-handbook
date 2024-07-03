@@ -1,21 +1,12 @@
 accelerate launch \
---config_file configs/deepspeed_3.yaml \
---main_process_ip $MASTER_ADDR \
---main_process_port $MASTER_PORT \
---machine_rank \$SLURM_PROCID \
---num_processes 16 \
---num_machines 2 \
+--config_file config.yaml \
+--num_processes 1 \
+--num_machines 1 \
+--machine_rank 0 \
 src/sft.py \
 --attn_implementation='flash_attention_2' \
 --seed=42 \
 --model_name_or_path="Qwen/Qwen2-1.5B" \
---load_in_4bit \
---bnb_4bit_quant_type=nf4 \
---use_bnb_nested_quant=false \
---use_peft \
---lora_r=64 \
---lora_alpha=16 \
---lora_target_modules q_proj k_proj v_proj o_proj up_proj down_proj gate_proj \
 --dataset_name='HuggingFaceTB/cosmopedia-20k' \
 --dataset_train_split='train' \
 --dataset_test_split='train' \
@@ -28,18 +19,19 @@ src/sft.py \
 --gradient_accumulation_steps=128 \
 --learning_rate=2e-4 \
 --lr_scheduler_type='cosine' \
---optim='paged_adamw_8bit' \
+--optim='adamw_torch' \
 --warmup_ratio=0.01 \
+--eval_strategy='no' \
 --per_device_eval_batch_size=2 \
 --output_dir="output" \
+--bf16 \
 --logging_strategy='steps' \
 --logging_steps=1 \
 --max_steps=-1 \
 --save_strategy='steps' \
 --save_total_limit=1 \
 --save_steps=4 \
---push_to_hub \
+--push_to_hub=false \
 --hub_strategy='checkpoint' \
 --hub_model_id='...' \
---gradient_checkpointing \
---resume_from_checkpoint="output/last-checkpoint" 
+--gradient_checkpointing 
