@@ -2,16 +2,14 @@ accelerate launch \
 --config_file config.yaml \
 --num_processes 1 \
 --num_machines 1 \
---machine_rank 0 \
 src/sft.py \
---attn_implementation='flash_attention_2' \
 --seed=42 \
 --model_name_or_path="Qwen/Qwen2-1.5B" \
---dataset_name='HuggingFaceTB/cosmopedia-20k' \
+--dataset_name='iamnguyen/food_content' \
 --dataset_train_split='train' \
---dataset_test_split='train' \
+--dataset_test_split='test' \
 --dataset_text_field='text' \
---dataset_num_proc=4 \
+--dataset_num_proc=16 \
 --report_to=none \
 --num_train_epochs=1 \
 --max_seq_length=2048 \
