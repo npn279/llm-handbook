@@ -1,5 +1,5 @@
 accelerate launch \
---config_file config.yaml \
+--config_file configs/config.yaml \
 --num_processes 1 \
 --num_machines 1 \
 src/sft.py \
