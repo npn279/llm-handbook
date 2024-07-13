@@ -5,6 +5,8 @@ accelerate launch \
 src/sft.py \
 --seed=42 \
 --model_name_or_path="Qwen/Qwen2-1.5B" \
+--attn_implementation="flash_attention_2" \
+--torch_dtype="bfloat16" \
 --dataset_name='iamnguyen/food_content' \
 --dataset_train_split='train' \
 --dataset_test_split='test' \
