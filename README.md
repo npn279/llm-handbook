@@ -39,6 +39,12 @@ cd DeepSpeed/
 DS_BUILD_CPU_ADAM=1 ./install.sh -r
 ```
 
+### Flash Attention
+
+```bash
+pip install -qqq flash-attn
+```
+
 ---
 
 ## Running the Code
